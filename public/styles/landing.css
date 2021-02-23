@@ -1,0 +1,73 @@
+body {
+  background-color: black;
+}
+
+.artikel {
+  float: left;
+  width: 680px;
+  margin: 11px 30px;
+  padding-bottom: 41px;
+}
+
+h1 {
+  color: rgb(255, 255, 255);
+  font-size: 65px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h3 {
+  color: rgb(255, 255, 255);
+  font-size: 40px;
+  font-family: serif;
+}
+
+p {
+  color: gray;
+  text-align: center;
+}
+
+ul {
+  color: cornflowerblue;
+}
+
+.gambar {
+  padding: 0%;
+  float: left;
+}
+
+.gambar2 {
+  width: 6%;
+  padding: 20px 40px;
+}
+
+.date-footer {
+  margin: 5px 0 5px 0;
+  padding: 10px 5px 5px 0;
+  color: #808080;
+  text-align: center;
+}
+
+button {
+  margin-top: 7px;
+  margin-bottom: 15px;
+  width: 350px;
+  height: 40px;
+  background-color: rgb(84, 178, 233);
+  border: rgb(84, 178, 233);
+  border-radius: 50px;
+  color: white;
+}
+
+.hitam {
+  background-color: black;
+  border: 1px solid rgb(84, 178, 233);
+  color: rgb(84, 178, 233);
+}
+button a {
+  text-decoration: none;
+  color: white;
+}
+.hitam a {
+  text-decoration: none;
+  color: rgb(84, 178, 233);
+}
