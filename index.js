@@ -36,7 +36,7 @@ const isLoggedIn = (req, res, next) => {
 };
 
 app.get("/", (req, res) => {
-  res.send("welcome");
+  res.render("home");
 });
 app.get("/register", (req, res) => {
   const Month = [
