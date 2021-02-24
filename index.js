@@ -5,6 +5,8 @@ const path = require("path");
 const User = require("./models/user");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const session = require("express-session");
+const { isLoggedIn } = require("./middleware");
 
 mongoose.connect("mongodb://localhost/projek1", {
   useNewUrlParser: true,
@@ -18,9 +20,21 @@ db.once("open", () => {
   console.log("database connected");
 });
 
+const sessionConfig = {
+  secret: "thisiswhatwecalledsecret",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24,
+    maxAge: 1000 * 60 * 60 * 24,
+  },
+};
+
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -28,14 +42,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-const isLoggedIn = (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    return res.redirect("/login");
-  }
-  next();
-};
-
 app.get("/", (req, res) => {
+  res.render("landing");
+});
+app.get("/home", isLoggedIn, (req, res) => {
   res.render("home");
 });
 app.get("/register", (req, res) => {
@@ -61,7 +71,7 @@ app.post("/register", async (req, res) => {
     const registeredUser = await User.register(user, password);
     req.login(registeredUser, (err) => {
       if (err) return next(err);
-      res.redirect("/");
+      res.redirect("/home");
     });
   } catch (error) {
     console.log(error.message);
@@ -75,9 +85,13 @@ app.post(
   "/login",
   passport.authenticate("local", { failureRedirect: "/login" }),
   (req, res) => {
-    res.redirect("/");
+    res.redirect("/home");
   }
 );
+app.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
 
 app.listen(3000, () => {
   console.log("listening on port: 3000");
