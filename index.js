@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
 const User = require("./models/user");
+const Status = require("./models/status");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const session = require("express-session");
@@ -45,8 +46,15 @@ passport.deserializeUser(User.deserializeUser());
 app.get("/", (req, res) => {
   res.render("landing");
 });
-app.get("/home", isLoggedIn, (req, res) => {
-  res.render("home");
+app.get("/home", isLoggedIn, async (req, res) => {
+  const status = await Status.find();
+  res.render("home", { status });
+});
+app.post("/home", async (req, res) => {
+  const { status } = req.body;
+  const newStatus = new Status({ status });
+  const stat = await newStatus.save();
+  res.redirect("/home");
 });
 app.get("/register", (req, res) => {
   const Month = [
@@ -90,7 +98,7 @@ app.post(
 );
 app.get("/logout", (req, res) => {
   req.logout();
-  res.redirect("/login");
+  res.redirect("/");
 });
 
 app.listen(3000, () => {
