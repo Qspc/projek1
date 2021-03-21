@@ -1,3 +1,17 @@
 # Legend Never Die
 
-# Test
+# Landing Page
+
+![landing](./screenshots/landing.png)
+
+# Register Page
+
+![register](./screenshots/register.png)
+
+# Login Page
+
+![login](./screenshots/login.png)
+
+# Home Page
+
+![home](./screenshots/home.png)
